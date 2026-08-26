@@ -1,7 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
+import { ErrorState } from "@/components/error-state";
+import { LoadingState } from "@/components/loading-state";
 import { UserCard } from "@/components/user-card";
 import { UserTable } from "@/components/user-table";
 import { ViewToggle } from "@/components/view-toggle";
@@ -11,15 +13,26 @@ import type { User } from "@/types/user";
 export default function Home() {
   const [users, setUsers] = useState<User[]>([]);
   const [view, setView] = useState<"cards" | "table">("cards");
+  const [isLoading, setIsLoading] = useState(true);
+  const [hasError, setHasError] = useState(false);
 
-  useEffect(() => {
-    async function loadUsers() {
+  const loadUsers = useCallback(async () => {
+    setIsLoading(true);
+    setHasError(false);
+
+    try {
       const data = await getUsers(12, 0);
       setUsers(data.users);
+    } catch {
+      setHasError(true);
+    } finally {
+      setIsLoading(false);
     }
-
-    loadUsers();
   }, []);
+
+  useEffect(() => {
+    loadUsers();
+  }, [loadUsers]);
 
   return (
     <main className="min-h-screen bg-background">
@@ -35,17 +48,29 @@ export default function Home() {
             </p>
           </div>
 
-          <ViewToggle view={view} onViewChange={setView} />
+          {!isLoading && !hasError && (
+            <ViewToggle view={view} onViewChange={setView} />
+          )}
         </div>
 
-        {view === "cards" ? (
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {users.map((user) => (
-              <UserCard key={user.id} user={user} />
-            ))}
-          </div>
-        ) : (
-          <UserTable users={users} />
+        {isLoading && <LoadingState />}
+
+        {!isLoading && hasError && (
+          <ErrorState onRetry={loadUsers} />
+        )}
+
+        {!isLoading && !hasError && (
+          <>
+            {view === "cards" ? (
+              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                {users.map((user) => (
+                  <UserCard key={user.id} user={user} />
+                ))}
+              </div>
+            ) : (
+              <UserTable users={users} />
+            )}
+          </>
         )}
       </div>
     </main>
