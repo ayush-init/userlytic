@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { User } from "../types/user";
 
 type UserTableProps = {
@@ -17,8 +18,12 @@ export function UserTable({ users }: UserTableProps) {
         </thead>
         <tbody className="divide-y divide-zinc-200">
           {users.map((user) => (
-            <tr key={user.id}>
-              <td className="px-4 py-3 text-zinc-950">{user.name}</td>
+            <tr key={user.id} className="hover:bg-zinc-50">
+              <td className="px-4 py-3 text-zinc-950 font-medium">
+                <Link href={`/users/${user.id}`} className="hover:underline">
+                  {user.firstName} {user.lastName}
+                </Link>
+              </td>
               <td className="px-4 py-3 text-zinc-600">{user.email}</td>
               <td className="px-4 py-3 text-zinc-600">{user.phone ?? "-"}</td>
             </tr>
@@ -28,3 +33,4 @@ export function UserTable({ users }: UserTableProps) {
     </div>
   );
 }
+
