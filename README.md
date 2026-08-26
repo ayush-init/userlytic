@@ -1,36 +1,90 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# User Directory Application
 
-## Getting Started
+A modern, responsive User Directory application built with **Next.js 16 (App Router)**, **TypeScript**, **Tailwind CSS v4**, and **Shadcn UI**.
 
-First, run the development server:
+## 🚀 Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- **Responsive Grid & Table Views**: Switch seamlessly between a card grid view and a tabular directory view.
+  - **Cards Layout**: 1 column on mobile, 3 columns on tablet, and 4 columns on large screens.
+  - **Table Layout**: Fully scrollable horizontal layout with prioritized columns for small devices.
+- **Detailed User Pages**: Dynamic routing (`/users/[id]`) displaying complete profile details including contact info, address, company role, and university.
+- **Error & Empty Handling**: Includes user-friendly loading skeletons, empty state displays, and error fallback UI with retry capability.
+- **Clean Accessibility & Styling**: Styled using Tailwind CSS v4 with clean, modern aesthetics without distracting visual clutter.
+
+## 🛠 Tech Stack
+
+- **Framework**: [Next.js 16](https://nextjs.org/) (App Router & Turbopack)
+- **Language**: [TypeScript](https://www.typescriptlang.org/)
+- **Styling**: [Tailwind CSS v4](https://tailwindcss.com/)
+- **UI Components**: Custom Shadcn UI components built with Base UI primitives
+- **Icons**: [Lucide React](https://lucide.dev/)
+- **Notifications**: [Sonner](https://sonner.emilkowal.si/)
+- **API**: [DummyJSON Users API](https://dummyjson.com/docs/users)
+
+## 📁 Project Structure
+
+```text
+src/
+├── app/
+│   ├── layout.tsx         # Root layout with providers & fonts
+│   ├── page.tsx           # Directory home page (Grid & Table views)
+│   ├── globals.css        # Global CSS & Tailwind configuration
+│   └── users/
+│       └── [id]/
+│           └── page.tsx   # Detailed user profile page
+├── components/
+│   ├── ui/                # Reusable UI primitives (Avatar, Button, Card, Table, Badge, Alert)
+│   ├── user-card.tsx      # User profile card component
+│   ├── user-table.tsx     # Responsive user table component
+│   ├── view-toggle.tsx    # Toggle between grid and table view
+│   ├── error-state.tsx   # Error state component with retry action
+│   ├── loading-state.tsx # Loading feedback component
+│   └── empty-state.tsx   # Empty results state component
+├── lib/
+│   ├── api.ts             # API service functions for fetching users
+│   └── utils.ts           # Class merging helper (clsx + tailwind-merge)
+└── types/
+    └── user.ts            # TypeScript interfaces for user data & API responses
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🏃 Getting Started
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Prerequisites
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Node.js 18.x or later
+- npm, pnpm, or yarn
 
-## Learn More
+### Installation & Setup
 
-To learn more about Next.js, take a look at the following resources:
+1. **Clone the repository**:
+   ```bash
+   git clone <repository-url>
+   cd user-directory
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+2. **Install dependencies**:
+   ```bash
+   npm install
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+3. **Run the development server**:
+   ```bash
+   npm run dev
+   ```
 
-## Deploy on Vercel
+4. **Open application**:
+   Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Building for Production
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+To build the production bundle and verify type-checking:
+
+```bash
+npm run build
+```
+
+To start the production server:
+
+```bash
+npm run start
+```

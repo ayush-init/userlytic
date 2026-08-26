@@ -19,14 +19,14 @@ interface UserTableProps {
 
 export function UserTable({ users }: UserTableProps) {
   return (
-    <div className="overflow-hidden rounded-xl border">
-      <Table>
+    <div className="w-full overflow-x-auto rounded-xl border bg-card shadow-xs">
+      <Table className="min-w-[600px] w-full text-left text-sm">
         <TableHeader>
           <TableRow>
             <TableHead>User</TableHead>
-            <TableHead>Email</TableHead>
-            <TableHead>Location</TableHead>
-            <TableHead>Role</TableHead>
+            <TableHead className="hidden sm:table-cell">Email</TableHead>
+            <TableHead className="hidden md:table-cell">Location</TableHead>
+            <TableHead className="hidden sm:table-cell">Role</TableHead>
             <TableHead className="text-right">Action</TableHead>
           </TableRow>
         </TableHeader>
@@ -40,27 +40,30 @@ export function UserTable({ users }: UserTableProps) {
               <TableRow key={user.id}>
                 <TableCell>
                   <div className="flex items-center gap-3">
-                    <Avatar>
+                    <Avatar className="h-10 w-10 shrink-0">
                       <AvatarImage src={user.image} alt={fullName} />
                       <AvatarFallback>{initials}</AvatarFallback>
                     </Avatar>
 
-                    <div>
-                      <p className="font-medium">{fullName}</p>
-                      <p className="text-sm text-muted-foreground">
+                    <div className="min-w-0">
+                      <p className="font-medium text-foreground truncate">{fullName}</p>
+                      <p className="text-xs text-muted-foreground truncate">
                         @{user.username}
+                      </p>
+                      <p className="text-xs text-muted-foreground sm:hidden mt-0.5 truncate">
+                        {user.email} &bull; {user.role}
                       </p>
                     </div>
                   </div>
                 </TableCell>
 
-                <TableCell>{user.email}</TableCell>
+                <TableCell className="hidden sm:table-cell">{user.email}</TableCell>
 
-                <TableCell>
+                <TableCell className="hidden md:table-cell">
                   {user.address.city}, {user.address.country}
                 </TableCell>
 
-                <TableCell>{user.role}</TableCell>
+                <TableCell className="hidden sm:table-cell">{user.role}</TableCell>
 
                 <TableCell className="text-right">
                   <Link
