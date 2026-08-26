@@ -1,9 +1,14 @@
-import type { User } from "../types/user";
+import type { User, UsersResponse } from "../types/user";
 
-const API_URL = "https://jsonplaceholder.typicode.com/users";
+const API_URL = "https://dummyjson.com";
 
-export async function getUsers(): Promise<User[]> {
-  const response = await fetch(API_URL);
+export async function getUsers(
+  limit = 12,
+  skip = 0
+): Promise<UsersResponse> {
+  const response = await fetch(
+    `${API_URL}/users?limit=${limit}&skip=${skip}`
+  );
 
   if (!response.ok) {
     throw new Error("Failed to fetch users");
@@ -13,10 +18,22 @@ export async function getUsers(): Promise<User[]> {
 }
 
 export async function getUser(id: string): Promise<User> {
-  const response = await fetch(`${API_URL}/${id}`);
+  const response = await fetch(`${API_URL}/users/${id}`);
 
   if (!response.ok) {
     throw new Error("Failed to fetch user");
+  }
+
+  return response.json();
+}
+
+export async function searchUsers(query: string): Promise<UsersResponse> {
+  const response = await fetch(
+    `${API_URL}/users/search?q=${encodeURIComponent(query)}`
+  );
+
+  if (!response.ok) {
+    throw new Error("Failed to search users");
   }
 
   return response.json();
