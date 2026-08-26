@@ -28,6 +28,7 @@ export interface User {
   company: UserCompany;
   university: string;
   role: string;
+  domain: string;
 }
 
 export interface UsersResponse {
