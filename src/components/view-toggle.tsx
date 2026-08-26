@@ -12,12 +12,13 @@ export function ViewToggle({
   onViewChange,
 }: ViewToggleProps) {
   return (
-    <div className="flex rounded-lg border p-1">
+    <div className="grid grid-cols-2 w-full sm:w-auto sm:flex items-center rounded-lg border bg-muted/20 p-1 gap-1">
       <Button
         type="button"
         size="sm"
         variant={view === "cards" ? "default" : "ghost"}
         onClick={() => onViewChange("cards")}
+        className="w-full sm:w-auto justify-center font-medium"
       >
         Cards
       </Button>
@@ -27,6 +28,7 @@ export function ViewToggle({
         size="sm"
         variant={view === "table" ? "default" : "ghost"}
         onClick={() => onViewChange("table")}
+        className="w-full sm:w-auto justify-center font-medium"
       >
         Table
       </Button>
