@@ -1,36 +1,80 @@
 import Link from "next/link";
-import type { User } from "../types/user";
 
-type UserTableProps = {
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { buttonVariants } from "@/components/ui/button";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { cn } from "@/lib/utils";
+import type { User } from "@/types/user";
+
+interface UserTableProps {
   users: User[];
-};
+}
 
 export function UserTable({ users }: UserTableProps) {
   return (
-    <div className="overflow-hidden rounded-lg border border-zinc-200 bg-white">
-      <table className="w-full text-left text-sm">
-        <thead className="bg-zinc-50 text-zinc-600">
-          <tr>
-            <th className="px-4 py-3 font-medium">Name</th>
-            <th className="px-4 py-3 font-medium">Email</th>
-            <th className="px-4 py-3 font-medium">Phone</th>
-          </tr>
-        </thead>
-        <tbody className="divide-y divide-zinc-200">
-          {users.map((user) => (
-            <tr key={user.id} className="hover:bg-zinc-50">
-              <td className="px-4 py-3 text-zinc-950 font-medium">
-                <Link href={`/users/${user.id}`} className="hover:underline">
-                  {user.firstName} {user.lastName}
-                </Link>
-              </td>
-              <td className="px-4 py-3 text-zinc-600">{user.email}</td>
-              <td className="px-4 py-3 text-zinc-600">{user.phone ?? "-"}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div className="overflow-hidden rounded-xl border">
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead>User</TableHead>
+            <TableHead>Email</TableHead>
+            <TableHead>Location</TableHead>
+            <TableHead>Role</TableHead>
+            <TableHead className="text-right">Action</TableHead>
+          </TableRow>
+        </TableHeader>
+
+        <TableBody>
+          {users.map((user) => {
+            const fullName = `${user.firstName} ${user.lastName}`;
+            const initials = `${user.firstName[0]}${user.lastName[0]}`;
+
+            return (
+              <TableRow key={user.id}>
+                <TableCell>
+                  <div className="flex items-center gap-3">
+                    <Avatar>
+                      <AvatarImage src={user.image} alt={fullName} />
+                      <AvatarFallback>{initials}</AvatarFallback>
+                    </Avatar>
+
+                    <div>
+                      <p className="font-medium">{fullName}</p>
+                      <p className="text-sm text-muted-foreground">
+                        @{user.username}
+                      </p>
+                    </div>
+                  </div>
+                </TableCell>
+
+                <TableCell>{user.email}</TableCell>
+
+                <TableCell>
+                  {user.address.city}, {user.address.country}
+                </TableCell>
+
+                <TableCell>{user.role}</TableCell>
+
+                <TableCell className="text-right">
+                  <Link
+                    href={`/users/${user.id}`}
+                    className={cn(buttonVariants({ size: "sm" }))}
+                  >
+                    View
+                  </Link>
+                </TableCell>
+              </TableRow>
+            );
+          })}
+        </TableBody>
+      </Table>
     </div>
   );
 }
-

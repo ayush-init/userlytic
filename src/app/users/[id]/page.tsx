@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { getUser } from "@/lib/api";
+import { cn } from "@/lib/utils";
 
 interface UserDetailsPageProps {
   params: Promise<{
@@ -29,9 +30,12 @@ export default async function UserDetailsPage({
   return (
     <main className="min-h-screen bg-background">
       <div className="mx-auto max-w-4xl px-6 py-10">
-        <Button asChild variant="ghost" className="mb-6">
-          <Link href="/">← Back to Users</Link>
-        </Button>
+        <Link
+          href="/"
+          className={cn(buttonVariants({ variant: "ghost" }), "mb-6")}
+        >
+          ← Back to Users
+        </Link>
 
         <Card>
           <CardHeader>

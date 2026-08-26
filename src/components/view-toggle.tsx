@@ -1,25 +1,35 @@
-type ViewMode = "grid" | "table";
+"use client";
 
-type ViewToggleProps = {
-  value: ViewMode;
-  onChange: (value: ViewMode) => void;
-};
+import { Button } from "@/components/ui/button";
 
-export function ViewToggle({ value, onChange }: ViewToggleProps) {
+interface ViewToggleProps {
+  view: "cards" | "table";
+  onViewChange: (view: "cards" | "table") => void;
+}
+
+export function ViewToggle({
+  view,
+  onViewChange,
+}: ViewToggleProps) {
   return (
-    <div className="inline-flex rounded-md border border-zinc-300 bg-white p-1">
-      {(["grid", "table"] as const).map((mode) => (
-        <button
-          className={`rounded px-3 py-1.5 text-sm ${
-            value === mode ? "bg-zinc-900 text-white" : "text-zinc-600"
-          }`}
-          key={mode}
-          type="button"
-          onClick={() => onChange(mode)}
-        >
-          {mode}
-        </button>
-      ))}
+    <div className="flex rounded-lg border p-1">
+      <Button
+        type="button"
+        size="sm"
+        variant={view === "cards" ? "default" : "ghost"}
+        onClick={() => onViewChange("cards")}
+      >
+        Cards
+      </Button>
+
+      <Button
+        type="button"
+        size="sm"
+        variant={view === "table" ? "default" : "ghost"}
+        onClick={() => onViewChange("table")}
+      >
+        Table
+      </Button>
     </div>
   );
 }
