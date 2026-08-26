@@ -11,11 +11,25 @@ import { getUsers } from "@/lib/api";
 import type { User } from "@/types/user";
 import { toast } from "sonner";
 import { EmptyState } from "@/components/empty-state";
+const STORAGE_KEY = "user_directory_view";
+
 export default function Home() {
   const [users, setUsers] = useState<User[]>([]);
   const [view, setView] = useState<"cards" | "table">("cards");
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
+
+  useEffect(() => {
+    const savedView = localStorage.getItem(STORAGE_KEY);
+    if (savedView === "cards" || savedView === "table") {
+      setView(savedView);
+    }
+  }, []);
+
+  const handleViewChange = (newView: "cards" | "table") => {
+    setView(newView);
+    localStorage.setItem(STORAGE_KEY, newView);
+  };
 
   const loadUsers = useCallback(async () => {
     setIsLoading(true);
@@ -52,12 +66,10 @@ export default function Home() {
             </p>
           </div>
 
-          {!isLoading && !hasError && (
-            <ViewToggle view={view} onViewChange={setView} />
-          )}
+          <ViewToggle view={view} onViewChange={handleViewChange} />
         </div>
 
-        {isLoading && <LoadingState />}
+        {isLoading && <LoadingState view={view} />}
 
         {!isLoading && hasError && (
           <ErrorState onRetry={loadUsers} />
