@@ -49,18 +49,17 @@ export default async function UserDetailsPage({
           <span>Back to Directory</span>
         </Link>
 
-        {/* Hero Banner Card */}
-        <Card className="overflow-hidden border-border/60 shadow-xs mb-6">
-          <div className="h-24 bg-gradient-to-r from-zinc-800 to-zinc-950 sm:h-32" />
-          <CardHeader className="-mt-12 sm:-mt-16 flex flex-col sm:flex-row items-center sm:items-end gap-4 sm:gap-6 pb-6 pt-0 text-center sm:text-left">
-            <Avatar className="h-24 w-24 sm:h-28 sm:w-28 rounded-full border-4 border-background shadow-md shrink-0">
+        {/* Profile Header Card */}
+        <Card className="border-border/60 shadow-xs mb-6">
+          <CardHeader className="p-6 flex flex-col sm:flex-row items-center gap-4 sm:gap-6 text-center sm:text-left">
+            <Avatar className="h-20 w-20 sm:h-24 sm:w-24 rounded-full border bg-muted shrink-0">
               <AvatarImage src={user.image} alt={fullName} />
               <AvatarFallback className="text-2xl font-bold bg-muted">
                 {initials}
               </AvatarFallback>
             </Avatar>
 
-            <div className="flex-1 min-w-0 space-y-1">
+            <div className="flex-1 min-w-0 space-y-1.5">
               <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
                 <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground truncate">
                   {fullName}
@@ -74,7 +73,7 @@ export default async function UserDetailsPage({
                 @{user.username} &bull; {user.company?.title ?? "Member"}
               </p>
 
-              <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2 pt-1 text-xs text-muted-foreground">
+              <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2.5 pt-1 text-xs text-muted-foreground">
                 <span className="flex items-center gap-1">
                   <MapPin className="h-3.5 w-3.5" />
                   {user.address.city}, {user.address.country}
