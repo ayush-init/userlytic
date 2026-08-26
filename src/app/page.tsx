@@ -9,7 +9,8 @@ import { UserTable } from "@/components/user-table";
 import { ViewToggle } from "@/components/view-toggle";
 import { getUsers } from "@/lib/api";
 import type { User } from "@/types/user";
-
+import { toast } from "sonner";
+import { EmptyState } from "@/components/empty-state";
 export default function Home() {
   const [users, setUsers] = useState<User[]>([]);
   const [view, setView] = useState<"cards" | "table">("cards");
@@ -25,6 +26,9 @@ export default function Home() {
       setUsers(data.users);
     } catch {
       setHasError(true);
+      toast.error("Unable to load users", {
+        description: "Please check your connection and try again.",
+      });
     } finally {
       setIsLoading(false);
     }
@@ -61,7 +65,9 @@ export default function Home() {
 
         {!isLoading && !hasError && (
           <>
-            {view === "cards" ? (
+            {users.length === 0 ? (
+              <EmptyState />
+            ) : view === "cards" ? (
               <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 {users.map((user) => (
                   <UserCard key={user.id} user={user} />
