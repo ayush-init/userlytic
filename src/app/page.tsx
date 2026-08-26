@@ -1,7 +1,8 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, useSyncExternalStore } from "react";
 
+import { EmptyState } from "@/components/empty-state";
 import { ErrorState } from "@/components/error-state";
 import { LoadingState } from "@/components/loading-state";
 import { UserCard } from "@/components/user-card";
@@ -10,25 +11,46 @@ import { ViewToggle } from "@/components/view-toggle";
 import { getUsers } from "@/lib/api";
 import type { User } from "@/types/user";
 import { toast } from "sonner";
-import { EmptyState } from "@/components/empty-state";
+
 const STORAGE_KEY = "user_directory_view";
+
+function subscribe(callback: () => void) {
+  window.addEventListener("storage", callback);
+  return () => window.removeEventListener("storage", callback);
+}
+
+function getSnapshot(): "cards" | "table" {
+  if (typeof window !== "undefined") {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved === "cards" || saved === "table") {
+      return saved;
+    }
+  }
+  return "cards";
+}
+
+function getServerSnapshot(): "cards" | "table" {
+  return "cards";
+}
 
 export default function Home() {
   const [users, setUsers] = useState<User[]>([]);
-  const [view, setView] = useState<"cards" | "table">("cards");
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
 
-  useEffect(() => {
-    const savedView = localStorage.getItem(STORAGE_KEY);
-    if (savedView === "cards" || savedView === "table") {
-      setView(savedView);
-    }
-  }, []);
+  const syncedView = useSyncExternalStore(
+    subscribe,
+    getSnapshot,
+    getServerSnapshot
+  );
+
+  const [localView, setLocalView] = useState<"cards" | "table" | null>(null);
+  const view = localView ?? syncedView;
 
   const handleViewChange = (newView: "cards" | "table") => {
-    setView(newView);
+    setLocalView(newView);
     localStorage.setItem(STORAGE_KEY, newView);
+    window.dispatchEvent(new Event("storage"));
   };
 
   const loadUsers = useCallback(async () => {
@@ -69,13 +91,11 @@ export default function Home() {
           <ViewToggle view={view} onViewChange={handleViewChange} />
         </div>
 
-        {isLoading && <LoadingState view={view} />}
-
-        {!isLoading && hasError && (
+        {isLoading ? (
+          <LoadingState view={view} />
+        ) : hasError ? (
           <ErrorState onRetry={loadUsers} />
-        )}
-
-        {!isLoading && !hasError && (
+        ) : (
           <>
             {users.length === 0 ? (
               <EmptyState />

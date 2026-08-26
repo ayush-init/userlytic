@@ -1,60 +1,74 @@
 # User Directory Application
 
-A modern, responsive User Directory application built with **Next.js 16 (App Router)**, **TypeScript**, **Tailwind CSS v4**, and **Shadcn UI**.
+A modern, high-performance, and fully responsive **User Directory Application** built with **Next.js 16 (App Router)**, **TypeScript**, **Tailwind CSS v4**, and **Shadcn UI**.
 
-## 🚀 Features
+---
 
-- **Responsive Grid & Table Views**: Switch seamlessly between a card grid view and a tabular directory view.
-  - **Cards Layout**: 1 column on mobile, 3 columns on tablet, and 4 columns on large screens.
-  - **Table Layout**: Fully scrollable horizontal layout with prioritized columns for small devices.
-- **Detailed User Pages**: Dynamic routing (`/users/[id]`) displaying complete profile details including contact info, address, company role, and university.
-- **Error & Empty Handling**: Includes user-friendly loading skeletons, empty state displays, and error fallback UI with retry capability.
-- **Clean Accessibility & Styling**: Styled using Tailwind CSS v4 with clean, modern aesthetics without distracting visual clutter.
+## ✨ Features
+
+- **🔀 Persistent View Toggle**: Seamlessly switch between a Card Grid view and a Table view. Your selection is automatically saved in `localStorage` and restored on page reloads with zero layout flicker.
+- **📱 Mobile-First Responsive Design**:
+  - **Cards Grid**: 1 column on mobile (`grid-cols-1`), 2 columns on tablet (`sm:grid-cols-2`), and 3 columns on desktop (`lg:grid-cols-3`).
+  - **Table View**: Responsive horizontal scroll container with prioritized column visibility on smaller screens.
+- **👤 Detailed Profile Page**: Dedicated profile pages (`/users/[id]`) presenting user contact details, company employment info, address details, and metadata with clean icon indicators.
+- **⚡ Zero Layout Shift Skeletons**: View-aware loading skeletons matched to card and table layouts to eliminate visual jump.
+- **🛡️ Error & Empty Handling**: User-friendly error alert UI with one-click retry action and toast notifications (`Sonner`).
+
+---
 
 ## 🛠 Tech Stack
 
-- **Framework**: [Next.js 16](https://nextjs.org/) (App Router & Turbopack)
+- **Framework**: [Next.js 16 (App Router)](https://nextjs.org/)
 - **Language**: [TypeScript](https://www.typescriptlang.org/)
 - **Styling**: [Tailwind CSS v4](https://tailwindcss.com/)
-- **UI Components**: Custom Shadcn UI components built with Base UI primitives
+- **UI Components**: Shadcn UI
 - **Icons**: [Lucide React](https://lucide.dev/)
 - **Notifications**: [Sonner](https://sonner.emilkowal.si/)
-- **API**: [DummyJSON Users API](https://dummyjson.com/docs/users)
+- **API Provider**: [DummyJSON Users API](https://dummyjson.com/docs/users)
+
+---
 
 ## 📁 Project Structure
 
 ```text
-src/
-├── app/
-│   ├── layout.tsx         # Root layout with providers & fonts
-│   ├── page.tsx           # Directory home page (Grid & Table views)
-│   ├── globals.css        # Global CSS & Tailwind configuration
-│   └── users/
-│       └── [id]/
-│           └── page.tsx   # Detailed user profile page
-├── components/
-│   ├── ui/                # Reusable UI primitives (Avatar, Button, Card, Table, Badge, Alert)
-│   ├── user-card.tsx      # User profile card component
-│   ├── user-table.tsx     # Responsive user table component
-│   ├── view-toggle.tsx    # Toggle between grid and table view
-│   ├── error-state.tsx   # Error state component with retry action
-│   ├── loading-state.tsx # Loading feedback component
-│   └── empty-state.tsx   # Empty results state component
-├── lib/
-│   ├── api.ts             # API service functions for fetching users
-│   └── utils.ts           # Class merging helper (clsx + tailwind-merge)
-└── types/
-    └── user.ts            # TypeScript interfaces for user data & API responses
+user-directory/
+├── src/
+│   ├── app/
+│   │   ├── globals.css         # Global CSS & Tailwind configuration
+│   │   ├── layout.tsx          # Root layout with fonts & providers
+│   │   ├── page.tsx            # Directory home page
+│   │   └── users/
+│   │       └── [id]/
+│   │           └── page.tsx    # User details profile page
+│   ├── components/
+│   │   ├── ui/                 # Reusable UI primitives (Avatar, Card, Table, etc.)
+│   │   ├── empty-state.tsx     # Empty state feedback component
+│   │   ├── error-state.tsx     # Error state component with retry action
+│   │   ├── loading-state.tsx   # View-aware skeleton loader
+│   │   ├── user-card.tsx       # User profile card component
+│   │   ├── user-list.tsx       # Responsive user cards grid
+│   │   ├── user-table.tsx      # Responsive user table component
+│   │   └── view-toggle.tsx     # Segmented Cards/Table view toggle
+│   ├── lib/
+│   │   ├── api.ts              # API service functions
+│   │   └── utils.ts            # Utility functions
+│   └── types/
+│       └── user.ts             # TypeScript interfaces
+├── components.json             # Shadcn UI configuration
+├── package.json                # Project dependencies and scripts
+└── tsconfig.json               # TypeScript configuration
 ```
 
-## 🏃 Getting Started
+---
+
+## 🚀 Getting Started
 
 ### Prerequisites
 
-- Node.js 18.x or later
+- Node.js v18.x or later
 - npm, pnpm, or yarn
 
-### Installation & Setup
+### Local Setup
 
 1. **Clone the repository**:
    ```bash
@@ -67,7 +81,7 @@ src/
    npm install
    ```
 
-3. **Run the development server**:
+3. **Start the development server**:
    ```bash
    npm run dev
    ```
@@ -75,9 +89,11 @@ src/
 4. **Open application**:
    Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-### Building for Production
+---
 
-To build the production bundle and verify type-checking:
+## ⚙️ Build & Production
+
+To compile the production build and verify type safety:
 
 ```bash
 npm run build
