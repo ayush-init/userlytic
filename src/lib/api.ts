@@ -27,14 +27,3 @@ export async function getUser(id: string): Promise<User> {
   return response.json();
 }
 
-export async function searchUsers(query: string): Promise<UsersResponse> {
-  const response = await fetch(
-    `${API_URL}/users/search?q=${encodeURIComponent(query)}`
-  );
-
-  if (!response.ok) {
-    throw new Error("Failed to search users");
-  }
-
-  return response.json();
-}

@@ -1,74 +1,85 @@
-# User Directory Application
+# User Directory
 
-A modern, high-performance, and fully responsive **User Directory Application** built with **Next.js 16 (App Router)**, **TypeScript**, **Tailwind CSS v4**, and **Shadcn UI**.
+A responsive User Directory application built for the Frontend Developer Internship assessment using Next.js, TypeScript, Tailwind CSS, and shadcn/ui.
 
----
+## Project Specifications
 
-## ✨ Features
+### Tech Stack
 
-- **🔀 Persistent View Toggle**: Seamlessly switch between a Card Grid view and a Table view. Your selection is automatically saved in `localStorage` and restored on page reloads with zero layout flicker.
-- **📱 Mobile-First Responsive Design**:
-  - **Cards Grid**: 1 column on mobile (`grid-cols-1`), 2 columns on tablet (`sm:grid-cols-2`), and 3 columns on desktop (`lg:grid-cols-3`).
-  - **Table View**: Responsive horizontal scroll container with prioritized column visibility on smaller screens.
-- **👤 Detailed Profile Page**: Dedicated profile pages (`/users/[id]`) presenting user contact details, company employment info, address details, and metadata with clean icon indicators.
-- **⚡ Zero Layout Shift Skeletons**: View-aware loading skeletons matched to card and table layouts to eliminate visual jump.
-- **🛡️ Error & Empty Handling**: User-friendly error alert UI with one-click retry action and toast notifications (`Sonner`).
+- **Framework**: Next.js 16 (App Router)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS v4
+- **UI Components**: shadcn/ui
+- **API**: DummyJSON Users API (`https://dummyjson.com/users`)
 
 ---
 
-## 🛠 Tech Stack
+## Pages
 
-- **Framework**: [Next.js 16 (App Router)](https://nextjs.org/)
-- **Language**: [TypeScript](https://www.typescriptlang.org/)
-- **Styling**: [Tailwind CSS v4](https://tailwindcss.com/)
-- **UI Components**: Shadcn UI
-- **Icons**: [Lucide React](https://lucide.dev/)
-- **Notifications**: [Sonner](https://sonner.emilkowal.si/)
-- **API Provider**: [DummyJSON Users API](https://dummyjson.com/docs/users)
+### 1. Home Page (`/`)
+- Displays users fetched from DummyJSON API with options to switch between Card Grid view and Table view.
+- Selected view option is saved in `localStorage` and preserved across page reloads.
+- Responsive grid layout: 1 column on mobile screens, 2 columns on tablet screens, and 3 columns on desktop screens.
+- Includes view-matched loading skeletons and error fallback handling.
+
+### 2. User Details Page (`/users/[id]`)
+- Dynamic route displaying detailed profile information for a selected user.
+- Displays user contact details, company position, address, and metadata.
+- Includes a navigation button to return to the directory homepage.
 
 ---
 
-## 📁 Project Structure
+## Features Implemented
+
+1. **API Data Fetching**: Fetches user data from DummyJSON API with full error handling and user feedback.
+2. **Cards & Table View**: Allows toggling between visual cards and tabular data formats.
+3. **User Navigation**: Clicking any user card or table row navigates to their details page.
+4. **Loading & Error States**: Implements view-specific skeleton loaders and error state UI with retry capability.
+5. **Responsive Layout**: Designed for mobile, tablet, and desktop viewports.
+
+---
+
+## Project Structure
 
 ```text
 user-directory/
 ├── src/
 │   ├── app/
 │   │   ├── globals.css         # Global CSS & Tailwind configuration
-│   │   ├── layout.tsx          # Root layout with fonts & providers
-│   │   ├── page.tsx            # Directory home page
+│   │   ├── layout.tsx          # Root layout and providers
+│   │   ├── page.tsx            # Home page (Cards & Table view)
 │   │   └── users/
 │   │       └── [id]/
-│   │           └── page.tsx    # User details profile page
+│   │           └── page.tsx    # User details page
 │   ├── components/
-│   │   ├── ui/                 # Reusable UI primitives (Avatar, Card, Table, etc.)
-│   │   ├── empty-state.tsx     # Empty state feedback component
-│   │   ├── error-state.tsx     # Error state component with retry action
-│   │   ├── loading-state.tsx   # View-aware skeleton loader
-│   │   ├── user-card.tsx       # User profile card component
-│   │   ├── user-list.tsx       # Responsive user cards grid
-│   │   ├── user-table.tsx      # Responsive user table component
-│   │   └── view-toggle.tsx     # Segmented Cards/Table view toggle
+│   │   ├── ui/                 # Reusable shadcn/ui components
+│   │   ├── empty-state.tsx     # Empty state component
+│   │   ├── error-state.tsx     # Error state component
+│   │   ├── loading-state.tsx   # Loading skeleton component
+│   │   ├── user-card.tsx       # User card component
+│   │   ├── user-list.tsx       # User cards grid layout
+│   │   ├── user-table.tsx      # User table layout
+│   │   └── view-toggle.tsx     # View toggle control
 │   ├── lib/
-│   │   ├── api.ts              # API service functions
+│   │   ├── api.ts              # API service module
 │   │   └── utils.ts            # Utility functions
 │   └── types/
-│       └── user.ts             # TypeScript interfaces
-├── components.json             # Shadcn UI configuration
+│       └── user.ts             # TypeScript type definitions
+├── components.json             # shadcn/ui configuration
 ├── package.json                # Project dependencies and scripts
 └── tsconfig.json               # TypeScript configuration
 ```
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 
-- Node.js v18.x or later
+- Node.js 18.x or higher
 - npm, pnpm, or yarn
 
-### Local Setup
+### Installation & Execution
 
 1. **Clone the repository**:
    ```bash
@@ -81,26 +92,12 @@ user-directory/
    npm install
    ```
 
-3. **Start the development server**:
+3. **Run the development server**:
    ```bash
    npm run dev
    ```
 
-4. **Open application**:
-   Open [http://localhost:3000](http://localhost:3000) in your browser.
-
----
-
-## ⚙️ Build & Production
-
-To compile the production build and verify type safety:
-
-```bash
-npm run build
-```
-
-To start the production server:
-
-```bash
-npm run start
-```
+4. **Build for production**:
+   ```bash
+   npm run build
+   ```
